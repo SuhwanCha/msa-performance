@@ -14,16 +14,16 @@ public class RpcController {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String SERVICE_B_NAME = "SERVICE-B";
+    private static final String SERVICE_NAME = "node-msa-example";
 
     @GetMapping("/rpc/test")
     public String callServiceB() {
         ResponseEntity<String> ackMessage;
-        String apiPath = "/api/healthcheck";
+        String apiPath = "/";
 
-        ackMessage = restTemplate.getForEntity("http://" + SERVICE_B_NAME + apiPath, String.class);
+        ackMessage = restTemplate.getForEntity("http://" + SERVICE_NAME + apiPath, String.class);
 
-        return "Service-A: inst001 호출" + " > " + ackMessage.getBody();
+        return "Service-A: inst001 to " + " > " + ackMessage.getBody();
     }
 
 }

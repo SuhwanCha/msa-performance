@@ -12,8 +12,21 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 zuul:
+  ribbon:
+    eager-load:
+      enabled: true
   routes:
     service-a:
       path: /api/**
     service-b:
       path: /api/**
+    node-msa-example:
+      path: /api/**
+    go-example:
+      path: /api/**
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 11000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
