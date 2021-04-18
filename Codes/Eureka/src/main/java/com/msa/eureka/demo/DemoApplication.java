@@ -2,6 +2,7 @@ package com.msa.eureka.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
 @EnableEurekaServer
@@ -11,4 +12,4 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
 	}
 
-}
+}33333

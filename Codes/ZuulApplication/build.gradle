@@ -13,6 +13,7 @@ repositories {
 	maven { url 'https://repo.spring.io/milestone' }
 	maven { url 'https://repo.spring.io/snapshot' }
 }
+apply plugin: 'maven'
 
 ext {
 	set('springCloudVersion', "Hoxton.BUILD-SNAPSHOT")
