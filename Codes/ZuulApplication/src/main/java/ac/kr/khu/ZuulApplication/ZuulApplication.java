@@ -14,14 +14,14 @@ public class ZuulApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZuulApplication.class, args);
 	}
-	@Bean
-	public PreZuulFilter preFilter() {
-		return new PreZuulFilter();
-	}
-
-	@Bean
-	public PostZuulFilter postFilter() {
-		return new PostZuulFilter();
-	}
+//	@Bean
+//	public PreZuulFilter preFilter() {
+//		return new PreZuulFilter();
+//	}
+//
+//	@Bean
+//	public PostZuulFilter postFilter() {
+//		return new PostZuulFilter();
+//	}
 
 }
