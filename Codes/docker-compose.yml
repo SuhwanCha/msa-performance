@@ -1,0 +1,39 @@
+version: '2'
+services:
+  eureka:
+      image: 'suhwan/eureka:latest'
+      restart: always
+      volumes:
+        - /tmp:/logs:rw
+      ports:
+        - "8761:8761"
+      networks:
+        microservice_network:
+          aliases:
+            - eureka-server
+  service-a:
+      image: 'service-a:latest'
+      restart: always
+      volumes:
+        - /tmp:/logs:rw
+      depends_on:
+        - "eureka"
+      networks:
+        microservice_network:
+  zuul:
+      image: 'suhwan/zuul:latest'
+      restart: always
+      volumes:
+        - /tmp:/logs:rw
+      ports:
+        # both ports must match the port from external_url above
+        - "8081:8081"
+      depends_on:
+        - "eureka"
+        - "service-a"
+      networks:
+        microservice_network:
+networks:
+  microservice_network:
+    ipam:
+      driver: default

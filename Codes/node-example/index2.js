@@ -1,14 +1,115 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const eurekaHelper = require('./eureka-helper');
-var prime_factors = require('prime-factors')
+
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+
 app.listen(PORT, () => {
-  console.log("node-msa-example on 3001");
+  console.log("node-msa-example on 3000");
 })
 
-app.get('/', (req, res) => {
-  res.json("node-msa-example")
+app.get('/2', async (req, res) => {
+  try {
+    const contentId = '03Irh5bXnxO2SRPyDEUX'
+    const text = 'testtesttest'
+    const uid = 'uid'
+    const resp = await db.collection(`contents/${contentId}/comments`).add({
+      country: 'KR',
+      likes: 0,
+      text: text,
+      nickname: 'test',
+      created_at: admin.firestore.FieldValue.serverTimestamp(),
+      uid: uid
+    });
+
+    const user = await db.collection(`users/${uid}/comments`).add({
+      contentId: contentId,
+      commentId: resp.id
+    });
+
+    res.json({
+      commentId: resp.id
+    })
+  } catch (error) {
+    console.error(error)
+    res.json()
+  }
+})
+
+app.get('/', async (req, res) => {
+  console.log('APP2 Called')
+  const uid = null
+  const contentId = '03Irh5bXnxO2SRPyDEUX'
+
+  try {
+    let contentRef = db.collection('contents').doc(contentId);
+    let getContent = await contentRef.get()
+      .then(doc => {
+        return doc.data()
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+
+    contentRef.update({
+      views: admin.firestore.FieldValue.increment(1)
+    })
+
+    let snapshot2 = await db.collection(`contents/${contentId}/ingredients`).get();
+    const ingredients = snapshot2.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id
+    }));
+
+    let getUserLiked
+    if (uid) {
+      let userRef = db.collection(`users/${uid}/liked-contents`);
+      getUserLiked = userRef.get()
+        .then(snapshot => {
+          let flag = false
+          snapshot.forEach(doc => {
+            if (flag) return false
+            if (contentId === doc.id) {
+              flag = true
+              return true
+            }
+          });
+          return flag
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+    } else {
+      getUserLiked = false
+    }
+
+    getContent.restaurants.local.liked = true
+    getContent.restaurants.abroad.liked = false
+
+    res.json({
+      ...(await getContent),
+      rating: (getContent.rating_count ? getContent.rating / getContent.rating_count : 0).toFixed(1),
+      liked: (await getUserLiked),
+      ingredients: (await ingredients),
+      price: 80000,
+
+    })
+
+  } catch (error) {
+    console.error(error)
+    res.json()
+  }
+
+
 })
 
 app.get('/async-100', (req, res) => {
@@ -98,7 +199,7 @@ app.get('/calc-cpu-4', (req, res) => {
     }
   }
   let post = Date.now()
-  console.log('2 called')
+  console.log('1 called')
   res.json(post - pre)
 
 })
@@ -196,5 +297,5 @@ app.get('/calc-ram-4', (req, res) => {
 })
 
 
-eurekaHelper.registerWithEureka('node-msa-example', PORT);
+eurekaHelper.registerWithEureka('node-msa-example', PORT, 'localhost');
 

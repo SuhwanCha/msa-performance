@@ -1,19 +1,22 @@
 const Eureka = require('eureka-js-client').Eureka;
-const eurekaHost = (process.env.EUREKA_CLIENT_SERVICEURL_DEFAULTZONE || '127.0.0.1');
+const eurekaHost = 'eureka-server';
 const eurekaPort = 8761;
-const hostName = (process.env.HOSTNAME || 'localhost')
-const ipAddr = '172.0.0.1';
+const ipAddr = 'msa-node-app';
 
-exports.registerWithEureka = function (appName, PORT) {
+exports.registerWithEureka = function (appName, PORT, hostName) {
+  console.log(hostName || '127.0.0.1')
+  const instanceId = Math.random().toString(36).substr(2, 11);
   const client = new Eureka({
     instance: {
       app: appName,
-      hostName: hostName,
+      hostName: hostName || '127.0.0.1',
+      instanceId: Math.random().toString(36).substr(2, 11),
       ipAddr: ipAddr,
       port: {
         '$': PORT,
         '@enabled': 'true',
       },
+      statusPageUrl: 'http://localhost:8080/info',
       vipAddress: appName,
       dataCenterInfo: {
         '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
