@@ -10,7 +10,7 @@ In this work, I propose an optimal design method when operating a service with a
 | Contents | March | April |  May  | June  |   Progress   |
 |----------|-------|-------|-------|-------|--------------|
 |  Designing Project  |   *  |   *   |       |       |     [Link](https://github.com/SuhwanCha/msa-performance/blob/master/Reports/Progress_1.pdf)    |
-|  Server Programming  |       |  *    |   *  |       |     [Link](https://github.com/SuhwanCha/msa-performance/tree/master/Codes/EurekaApplication)    |
+|  Server Programming  |       |  *    |   *  |       |     [Link](https://github.com/SuhwanCha/msa-performance/tree/master/Codes/EurekaApplication), [Link2](https://github.com/SuhwanCha/msa-performance/tree/master/Codes/)    |
 |  Deployment  |       |       |   *  |  *    |     [pad.yaml](https://github.com/SuhwanCha/msa-performance/blob/master/Codes/deployment.yaml)    |
 |  Evaluation  |       |       |     |  *    |     [Final report](https://github.com/SuhwanCha/msa-performance/blob/master/Reports/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EC%9C%B5%ED%95%A9%EC%BA%A1%EC%8A%A4%ED%86%A4%EB%94%94%EC%9E%90%EC%9D%B803(%EC%B0%A8%EC%88%98%ED%99%98).pdf)    |
 
